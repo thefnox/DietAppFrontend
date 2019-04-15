@@ -1,104 +1,161 @@
 import React from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { ListView } from 'react-native';
+import {
+  Body,
+  Title,
+  Drawer,
+  Left,
+  DatePicker,
+  Fab,
+  Button,
+  Icon,
+  View,
+  Container,
+  Right,
+  Header,
+  Content,
+  List,
+  ListItem,
+  Text 
+} from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
+import SideBar from '../Components/SideBar'
 import { connect } from 'react-redux'
 
-// More info here: https://facebook.github.io/react-native/docs/flatlist.html
-
-// Styles
 import styles from './Styles/DiaryListStyle'
 
 class DiaryList extends React.PureComponent {
-  /* ***********************************************************
-  * STEP 1
-  * This is an array of objects with the properties you desire
-  * Usually this should come from Redux mapStateToProps
-  *************************************************************/
   state = {
-    dataObjects: [
-      {title: 'First Title', description: 'First Description'},
-      {title: 'Second Title', description: 'Second Description'},
-      {title: 'Third Title', description: 'Third Description'},
-      {title: 'Fourth Title', description: 'Fourth Description'},
-      {title: 'Fifth Title', description: 'Fifth Description'},
-      {title: 'Sixth Title', description: 'Sixth Description'},
-      {title: 'Seventh Title', description: 'Seventh Description'}
-    ]
+    diaryEntries: [
+      {id: 1, name: 'First Title', calories: 100, carbs: 100, fat: 100, protein: 100},
+      {id: 2, name: 'Second Title', calories: 234, carbs: 100, fat: 100, protein: 100},
+      {id: 3, name: 'Third Title', calories: 123, carbs: 100, fat: 100, protein: 100},
+      {id: 4, name: 'Fourth Title', calories: 523, carbs: 100, fat: 100, protein: 100},
+      {id: 5, name: 'Fifth Title', calories: 521, carbs: 100, fat: 100, protein: 100},
+      {id: 6, name: 'Sixth Title', calories: 123, carbs: 100, fat: 100, protein: 100},
+      {id: 7, name: 'Seventh Title', calories: 412, carbs: 100, fat: 100, protein: 100},
+      {id: 11, name: 'First Title', calories: 100, carbs: 100, fat: 100, protein: 100},
+      {id: 12, name: 'Second Title', calories: 234, carbs: 100, fat: 100, protein: 100},
+      {id: 13, name: 'Third Title', calories: 123, carbs: 100, fat: 100, protein: 100},
+      {id: 14, name: 'Fourth Title', calories: 523, carbs: 100, fat: 100, protein: 100},
+      {id: 15, name: 'Fifth Title', calories: 521, carbs: 100, fat: 100, protein: 100},
+      {id: 16, name: 'Sixth Title', calories: 123, carbs: 100, fat: 100, protein: 100},
+      {id: 17, name: 'Seventh Title', calories: 412, carbs: 100, fat: 100, protein: 100}
+    ],
+    active: false
   }
 
-  /* ***********************************************************
-  * STEP 2
-  * `renderRow` function. How each cell/row should be rendered
-  * It's our best practice to place a single component here:
-  *
-  * e.g.
-    return <MyCustomCell title={item.title} description={item.description} />
-  *************************************************************/
-  renderRow ({item}) {
-    return (
-      <View style={styles.row}>
-        <Text style={styles.boldLabel}>{item.title}</Text>
-        <Text style={styles.label}>{item.description}</Text>
-      </View>
-    )
+  constructor(props) {
+    super(props);
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
   }
 
-  /* ***********************************************************
-  * STEP 3
-  * Consider the configurations we've set below.  Customize them
-  * to your liking!  Each with some friendly advice.
-  *************************************************************/
-  // Render a header?
-  renderHeader = () =>
-    <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
+  deleteRow(secId, rowId, rowMap) {
+    rowMap[`${secId}${rowId}`].props.closeRow();
+    const newData = [...this.state.listViewData];
+    newData.splice(rowId, 1);
+    this.setState({ listViewData: newData });
+  }
 
-  // Render a footer?
-  renderFooter = () =>
-    <Text style={[styles.label, styles.sectionHeader]}> - Footer - </Text>
+  closeDrawer = () => {
+    this.drawer._root.close()
+  }
 
-  // Show this when data is empty
-  renderEmpty = () =>
-    <Text style={styles.label}> - Nothing to See Here - </Text>
-
-  renderSeparator = () =>
-    <Text style={styles.label}> - ~~~~~ - </Text>
-
-  // The default function if no Key is provided is index
-  // an identifiable key is important if you plan on
-  // item reordering.  Otherwise index is fine
-  keyExtractor = (item, index) => `${index}`
-
-  // How many items should be kept im memory as we scroll?
-  oneScreensWorth = 20
-
-  // extraData is for anything that is not indicated in data
-  // for instance, if you kept "favorites" in `this.state.favs`
-  // pass that in, so changes in favorites will cause a re-render
-  // and your renderItem will have access to change depending on state
-  // e.g. `extraData`={this.state.favs}
-
-  // Optimize your list if the height of each item can be calculated
-  // by supplying a constant height, there is no need to measure each
-  // item after it renders.  This can save significant time for lists
-  // of a size 100+
-  // e.g. itemLayout={(data, index) => (
-  //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
-  // )}
+  openDrawer = () => {
+    this.drawer._root.open()
+  }
 
   render () {
+    const { diaryEntries } = this.state
+    const { navigate } = this.props.navigation
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
     return (
-      <View style={styles.container}>
-        <FlatList
-          contentContainerStyle={styles.listContent}
-          data={this.state.dataObjects}
-          renderItem={this.renderRow}
-          keyExtractor={this.keyExtractor}
-          initialNumToRender={this.oneScreensWorth}
-          ListHeaderComponent={this.renderHeader}
-          ListFooterComponent={this.renderFooter}
-          ListEmptyComponent={this.renderEmpty}
-          ItemSeparatorComponent={this.renderSeparator}
-        />
-      </View>
+      <Drawer
+        ref={(ref) => { this.drawer = ref }}
+        content={<SideBar navigation={this.props.navigation} />}
+        onClose={() => this.closeDrawer()}>
+        <Container>
+          <Header span>
+            <Left>
+              <Button transparent onPress={() => this.openDrawer()}>
+                <Icon name='menu' />
+              </Button>
+            </Left>
+            <Body>
+              <Grid style={{ width: 250 }}>
+                <Row style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'stretch' }}>
+                  <DatePicker
+                    style={{ width: 200 }}
+                    defaultDate={new Date()}
+                    locale={"en"}
+                    timeZoneOffsetInMinutes={undefined}
+                    modalTransparent={false}
+                    animationType={"fade"}
+                    androidMode={"default"}
+                    textStyle={{ color: "white" }}
+                    placeHolderTextStyle={{ color: "#ffffff" }}
+                    onDateChange={this.setDate}
+                    disabled={false}
+                    />
+                </Row>
+                <Row>
+                  <Col>
+                    <Text style={{ flex: 1, color: "#ffffff", textAlign: 'center' }}>{ `Calories\n${diaryEntries.reduce((sum, entry) => (sum + parseInt(entry.calories)), 0)}`} </Text>
+                  </Col>
+                  <Col>
+                  < Text style={{ flex: 1, color: "#ffffff", textAlign: 'center' }}>{ `Carbs\n${diaryEntries.reduce((sum, entry) => (sum + parseInt(entry.carbs)), 0)}g`} </Text>
+                  </Col>
+                  <Col>
+                    <Text style={{ flex: 1, color: "#ffffff", textAlign: 'center' }}>{ `Fat\n${diaryEntries.reduce((sum, entry) => (sum + parseInt(entry.fat)), 0)}g`} </Text>
+                  </Col>
+                  <Col>
+                    <Text style={{ flex: 1, color: "#ffffff", textAlign: 'center' }}>{ `Protein\n${diaryEntries.reduce((sum, entry) => (sum + parseInt(entry.protein)), 0)}g`} </Text>
+                  </Col>
+                </Row>
+              </Grid>
+            </Body>
+            <Right />
+          </Header>
+          <Content>
+            <List
+              leftOpenValue={75}
+              rightOpenValue={-75}
+              dataSource={this.ds.cloneWithRows( diaryEntries )}
+              renderRow={data =>
+                <ListItem>
+                  <Text>{ `${data.name} (${data.calories})` }</Text>
+                </ListItem>}
+              renderLeftHiddenRow={data =>
+                <Button full onPress={() => navigate('EditEntryScreen', { entry: data }) }>
+                  <Icon active name="create" />
+                </Button>}
+              renderRightHiddenRow={(data, secId, rowId, rowMap) =>
+                <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
+                  <Icon active name="trash" />
+                </Button>}
+            />
+          </Content>
+          <Fab
+            active={this.state.active}
+            direction="up"
+            containerStyle={{ }}
+            style={{ backgroundColor: '#5067FF' }}
+            position="bottomRight"
+            onPress={() => this.setState({ active: !this.state.active })}>
+            <Icon name="add" />
+            <Button style={{ backgroundColor: '#44DD51' }} onPress={() => navigate('AddFoodScreen') }>
+              <Icon name="add" />
+            </Button>
+            <Button style={{ backgroundColor: '#DD5144' }} onPress={() => navigate('ScanFoodScreen') }>
+              <Icon name="barcode" />
+            </Button>
+            <Button style={{ backgroundColor: '#3B5998' }} onPress={ () => navigate('SearchFoodScreen') }>
+              <Icon name="search" />
+            </Button>
+          </Fab>
+        </Container>
+      </Drawer>
     )
   }
 }

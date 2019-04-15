@@ -12,6 +12,11 @@ export default StyleSheet.create({
     width: Metrics.images.logo,
     resizeMode: 'contain'
   },
+  signInButton: {
+    width: 192,
+    height: 48,
+    alignItems: 'center'
+  },
   centered: {
     alignItems: 'center'
   }

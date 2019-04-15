@@ -56,6 +56,7 @@
 		2D7848A9D5834090B2302E37 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CBF62DD19F76473CAB586BEF /* SimpleLineIcons.ttf */; };
 		F7A04E62D505405DB6022256 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECE37EE79BA54E9683CD3925 /* Zocial.ttf */; };
 		C6B9119E891041998D4B236B /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AA409D8C5849EA9253539C /* libRNDeviceInfo.a */; };
+		DDE7104ABF034CA78B473246 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C29322CC4C3438084CA06A7 /* libReactNativeConfig.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,6 +384,8 @@
 		ECE37EE79BA54E9683CD3925 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		E16649A5B7854A978B620C79 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNDeviceInfo.xcodeproj"; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		58AA409D8C5849EA9253539C /* libRNDeviceInfo.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo.a"; path = "libRNDeviceInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		5FDD116C61B8469EBC8A2926 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeConfig.xcodeproj"; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		8C29322CC4C3438084CA06A7 /* libReactNativeConfig.a */ = {isa = PBXFileReference; name = "libReactNativeConfig.a"; path = "libReactNativeConfig.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -413,6 +416,7 @@
 				ABB00F117A2A4292A86D3282 /* libRNGestureHandler.a in Frameworks */,
 				40EF9DB8834A4A1689C60D8C /* libRNVectorIcons.a in Frameworks */,
 				C6B9119E891041998D4B236B /* libRNDeviceInfo.a in Frameworks */,
+				DDE7104ABF034CA78B473246 /* libReactNativeConfig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +607,7 @@
 				F41FA1A7C79643EE82BE6E0F /* RNGestureHandler.xcodeproj */,
 				2FDBC6FE80AE4777A68AA0D2 /* RNVectorIcons.xcodeproj */,
 				E16649A5B7854A978B620C79 /* RNDeviceInfo.xcodeproj */,
+				5FDD116C61B8469EBC8A2926 /* ReactNativeConfig.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1273,12 +1278,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Debug;
@@ -1304,12 +1311,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Release;
@@ -1335,6 +1344,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Debug;
@@ -1359,6 +1369,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Release;
@@ -1392,12 +1403,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Debug;
@@ -1431,12 +1444,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Release;
@@ -1469,12 +1484,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Debug;
@@ -1507,12 +1524,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-device-info\RNDeviceInfo",
+					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 				);
 			};
 			name = Release;

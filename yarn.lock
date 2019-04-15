@@ -5657,7 +5657,7 @@ ignite-standard@1.0.0:
   dependencies:
     snazzy "^7.0.0"
 
-ignite-vector-icons@1.1.1:
+ignite-vector-icons@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ignite-vector-icons/-/ignite-vector-icons-1.1.1.tgz#148d251dad720dbf7ca744186b85b88e4a10a395"
   integrity sha512-cAmxy+EZd+uFe7F2uCTLMc/S+OMg2z1GF0+5JbYKjK2Gs68YG2dLwSvnp0J4c6sWJZHalvN1ADLSMdhNsPCSww==

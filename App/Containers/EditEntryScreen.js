@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Label, Text, Button, Icon, Container, Left, Body, Title, Header, Content, Form, Item, Input } from 'native-base';
 import { connect } from 'react-redux'
+import { Selectors } from '../Redux/DietPlannerRedux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -20,9 +21,26 @@ class EditEntryScreen extends Component {
     portions: 1
   }
 
+  onSubmit = () => {
+    const { props, state } = this 
+    const { navigation, entry, editEntry } = props
+    const {
+      portions
+    } = state
+    console.log(entry)
+    const {
+      id,
+      diary,
+      food
+    } = entry
+
+    editEntry(id, { portions })
+    navigation.navigate('DiaryList')
+  }
 
   render () {
-    const { state } = this
+    const { state, props } = this
+    const { entry } = props
 
     return (
       <Container>
@@ -40,39 +58,39 @@ class EditEntryScreen extends Component {
           <Form>
             <Item floatingLabel>
               <Label>Barcode</Label>
-              <Input disabled={true} defaultValue={ barcode ? barcode.data : '' } />
+              <Input disabled={true} value={`${ entry.food.barcode || '' }`} />
             </Item>
             <Item floatingLabel>
               <Label>Name</Label>
-              <Input disabled={true} defaultValue={state.name} />
+              <Input disabled={true} value={`${entry.food.name}`} />
             </Item>
             <Item floatingLabel>
             <Label>Calories</Label>
-              <Input disabled={true} defaultValue={state.calories}/>
+              <Input disabled={true} value={`${entry.food.calories}`}/>
             </Item>
             <Item floatingLabel>
             <Label>Fat (g)</Label>
-              <Input disabled={true} defaultValue={state.fat}/>
+              <Input disabled={true} value={`${entry.food.fat}`}/>
             </Item>
             <Item floatingLabel>
             <Label>Protein (g)</Label>
-              <Input disabled={true} defaultValue={state.protein}/>
+              <Input disabled={true} value={`${entry.food.protein}`}/>
             </Item>
             <Item floatingLabel>
             <Label>Carbs (g)</Label>
-              <Input disabled={true} defaultValue={state.carbs}/>
+              <Input disabled={true} value={`${entry.food.carbs}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Sodium (mg)</Label>
-              <Input disabled={true} defaultValue={state.sodium}/>
+              <Input disabled={true} value={`${entry.food.sodium}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Sugar (g)</Label>
-              <Input disabled={true} defaultValue={state.sugar}/>
+              <Input disabled={true} value={`${entry.food.sugar}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Portions</Label>
-              <Input keyboardType={'numeric'} onChangeText={(portions) => this.setState({portions})} defaultValue={state.portions}/>
+              <Input keyboardType={'numeric'} onChangeText={(portions) => this.setState({portions})} placeholder={`${entry.portions}`}/>
             </Item>
             <Item last>
               <Button onPress={() => this.onSubmit()}>
@@ -90,11 +108,14 @@ class EditEntryScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    entry: Selectors.selectCurrentEntry(state),
+    diary: Selectors.selectCurrentDiary(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    editEntry: (id, entry) => dispatch({ type: 'EDIT_ENTRY', id, entry})
   }
 }
 

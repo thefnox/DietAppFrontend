@@ -103,6 +103,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [
+            appAuthRedirectScheme: 'io.identityserver.demo'
+        ]
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -138,6 +141,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-app-auth')
     compile project(':react-native-google-signin')
     compile project(':react-native-camera')
     implementation project(':react-native-camera')
@@ -148,10 +152,17 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.google.firebase:firebase-core:16.0.1'
     compile ("com.google.android.gms:play-services-basement:16.1.0") {
         force = true;
     }
     compile ("com.android.support:support-v4:27.1.1") {
+        force = true;
+    }
+    compile ("com.google.firebase:firebase-iid:16.0.0") {
+        force = true;
+    }
+    compile ("com.google.firebase:firebase-common:16.0.0") {
         force = true;
     }
 }

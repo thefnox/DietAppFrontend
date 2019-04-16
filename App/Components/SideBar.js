@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import PropTypes from 'prop-types';
 import { Container, Button, Header, Content, H1, H2, H3, Text } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import styles from './Styles/SideBarStyle'
 
 export default class SideBar extends Component {
@@ -16,8 +17,10 @@ export default class SideBar extends Component {
   //   someSetting: false
   // }
 
-  logout = () => {
+  logout = async () => {
     const { navigate } = this.props.navigation
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
     navigate('LoginScreen')
   }
 
@@ -48,7 +51,7 @@ export default class SideBar extends Component {
             </Button>
           </Row>
           <Row style={{ height: 50 }}>
-            <Button transparent darkonPress={() => this.logout()}>
+            <Button transparent dark onPress={() => this.logout()}>
               <Text>Logout</Text>
             </Button>
           </Row>

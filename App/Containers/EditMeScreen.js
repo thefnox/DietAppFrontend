@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Label, Text, Button, Icon, Container, Left, Body, Title, Header, Content, Form, Item, Input } from 'native-base';
 import { connect } from 'react-redux'
+import { Selectors } from '../Redux/DietPlannerRedux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -10,17 +11,29 @@ import styles from './Styles/EditMeScreenStyle'
 class EditMeScreen extends Component {
   state = {
     name: '',
-    calories: 0,
-    fat: 0,
-    carbs: 0,
-    protein: 0,
+    calorieTarget: 0,
+    fatTarget: 0,
+    carbTarget: 0,
+    proteinTarget: 0,
     sodium: 0,
     weight: 0,
     portions: 1
   }
+  
+  changeWeight = () => {
+
+  }
+
+  onSubmit = () => {
+    const { calorieTarget, fatTarget, carbTarget, proteinTarget } = this.state
+    const { editMe, navigation } = this.props
+    editMe({ calorieTarget, fatTarget, carbTarget, proteinTarget })
+    navigation.goBack()
+  }
 
   render () {
     const { state, props } = this
+    const { me } = props
 
     return (
       <Container>
@@ -31,30 +44,30 @@ class EditMeScreen extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Add Food</Title>
+            <Title>My Profile</Title>
           </Body>
         </Header>
         <Content>
           <Form>
             <Item floatingLabel>
               <Label>Daily Calorie Target</Label>
-              <Input keyboardType={'numeric'} onChangeText={(calories) => this.setState({calories})} defaultValue={state.calories}/>
+              <Input keyboardType={'numeric'} onChangeText={(calorieTarget) => this.setState({calorieTarget})} defaultValue={`${me.calorieTarget}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Daily Carbs Target (g)</Label>
-              <Input keyboardType={'numeric'} onChangeText={(carbs) => this.setState({carbs})} defaultValue={state.carbs}/>
+              <Input keyboardType={'numeric'} onChangeText={(carbTarget) => this.setState({carbTarget})} defaultValue={`${me.carbTarget}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Daily Fat Target (g)</Label>
-              <Input keyboardType={'numeric'} onChangeText={(fat) => this.setState({fat})} defaultValue={state.fat}/>
+              <Input keyboardType={'numeric'} onChangeText={(fatTarget) => this.setState({fatTarget})} defaultValue={`${me.fatTarget}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Daily Protein Target (g)</Label>
-              <Input keyboardType={'numeric'} onChangeText={(protein) => this.setState({protein})} defaultValue={state.protein}/>
+              <Input keyboardType={'numeric'} onChangeText={(proteinTarget) => this.setState({proteinTarget})} defaultValue={`${me.proteinTarget}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Weight (kg)</Label>
-              <Input keyboardType={'numeric'} onChangeText={(weight) => this.setState({weight})} defaultValue={state.weight}/>
+              <Input keyboardType={'numeric'} onChangeText={(weight) => this.setState({weight})} defaultValue={`${me.weight}`}/>
             </Item>
             <Item last>
               <Button onPress={() => this.changeWeight()}>
@@ -79,11 +92,13 @@ class EditMeScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    me: Selectors.selectMe(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    editMe: (body) => dispatch({ type: 'UPDATE_MY_INFO', body})
   }
 }
 

@@ -20,15 +20,17 @@ export default class LaunchScreen extends Component {
   async componentDidMount() {
     const {navigate} = this.props.navigation
     GoogleSignin.configure({
-      scopes: ['https://dietschemer.com'], // what API you want to access on behalf of the user, default is email and profile
-      webClientId: ' 236698486388-lfrk1c89cccgiqk7km5ah831gaqcu5um.apps.googleusercontent.com ', // client ID of type WEB for your server (needed to verify user ID and offline access)
-      offlineAccess: true,
+      scopes:['https://dietschemer.com/auth/google/callback'],
+      webClientId: '746283349516-bkipp3emlc25doop2ddps10r7objsr6f.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      offlineAccess: false,
     });
     const signedIn = await GoogleSignin.isSignedIn()
     console.log(signedIn)
     if (!signedIn) {
       navigate('LoginScreen');
     } else {
+      const currentUser = await GoogleSignin.getCurrentUser()
+      console.log(currentUser)
       navigate('DiaryList');
     }
   }

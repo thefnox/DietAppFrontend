@@ -6,10 +6,9 @@ import { Selectors } from '../Redux/DietPlannerRedux'
 // import YourActions from '../Redux/YourRedux'
 
 // Styles
-import styles from './Styles/AddFoodScreenStyle'
+import styles from './Styles/AddEntryScreenStyle'
 
-class AddFoodScreen extends Component {
-
+class AddEntryScreen extends Component {
   state = {
     barcode: null,
     name: '',
@@ -24,40 +23,19 @@ class AddFoodScreen extends Component {
 
   onSubmit = () => {
     const { props, state } = this 
-    const { navigation, addFood } = props
+    const { navigation, food, diary, addEntry } = props
     const {
-      name,
-      calories,
-      fat,
-      carbs,
-      protein,
-      sodium,
-      sugar,
       portions
     } = state
-    const barcodes = navigation.getParam('barcodes', [])
-    const barcode = barcodes[0]
 
-    addFood({
-      barcode: barcode ? barcode.data : null,
-      name,
-      calories,
-      fat,
-      carbs,
-      protein,
-      sodium,
-      sugar
-    }, portions)
-
+    addEntry({ food: food.id, diary: diary.id, portions })
     navigation.navigate('DiaryList')
   }
 
+
   render () {
-    const { props, state } = this 
-    const { navigation, food } = props
-    const barcodes = navigation.getParam('barcodes', [])
-    const barcode = barcodes[0]
-    console.log(barcode,  food)
+    const { state, props } = this
+    const { food } = props
 
     return (
       <Container>
@@ -68,51 +46,51 @@ class AddFoodScreen extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Add Food</Title>
+            <Title>Edit Entry</Title>
           </Body>
         </Header>
         <Content>
           <Form>
             <Item floatingLabel>
               <Label>Barcode</Label>
-              <Input disabled={true} value={ barcode ? barcode.data : '' } />
+              <Input disabled={true} value={`${ food.barcode || '' }`} />
             </Item>
             <Item floatingLabel>
               <Label>Name</Label>
-              <Input onChangeText={(name) => this.setState({name})} defaultValue={`${food.name}`} />
+              <Input disabled={true} value={`${food.name || ''}`} />
             </Item>
             <Item floatingLabel>
             <Label>Calories</Label>
-              <Input keyboardType={'numeric'} onChangeText={(calories) => this.setState({calories})} defaultValue={`${food.calories}`}/>
+              <Input disabled={true} value={`${food.calories || 0}`}/>
             </Item>
             <Item floatingLabel>
             <Label>Fat (g)</Label>
-              <Input keyboardType={'numeric'} onChangeText={(fat) => this.setState({fat})} defaultValue={`${food.fat}`}/>
+              <Input disabled={true} value={`${food.fat || 0}`}/>
             </Item>
             <Item floatingLabel>
             <Label>Protein (g)</Label>
-              <Input keyboardType={'numeric'} onChangeText={(protein) => this.setState({protein})} defaultValue={`${food.protein}`}/>
+              <Input disabled={true} value={`${food.protein || 0}`}/>
             </Item>
             <Item floatingLabel>
             <Label>Carbs (g)</Label>
-              <Input keyboardType={'numeric'} onChangeText={(carbs) => this.setState({carbs})} defaultValue={`${food.carbs}`}/>
+              <Input disabled={true} value={`${food.carbs || 0}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Sodium (mg)</Label>
-              <Input keyboardType={'numeric'} onChangeText={(sodium) => this.setState({sodium})} defaultValue={`${food.sodium}`}/>
+              <Input disabled={true} value={`${food.sodium || 0}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Sugar (g)</Label>
-              <Input keyboardType={'numeric'} onChangeText={(sugar) => this.setState({sugar})} defaultValue={`${food.sugar}`}/>
+              <Input disabled={true} value={`${food.sugar || 0}`}/>
             </Item>
             <Item floatingLabel>
               <Label>Portions</Label>
-              <Input keyboardType={'numeric'} onChangeText={(portions) => this.setState({portions})} defaultValue={`${food.portions}`}/>
+              <Input keyboardType={'numeric'} onChangeText={(portions) => this.setState({portions})} value={'1'}/>
             </Item>
             <Item last>
               <Button onPress={() => this.onSubmit()}>
                 <Text>
-                  Add Food
+                  Add Entry
                 </Text>
               </Button>
             </Item>
@@ -125,14 +103,15 @@ class AddFoodScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    food: Selectors.selectCurrentFood(state)
+    food: Selectors.selectCurrentFood(state),
+    diary: Selectors.selectCurrentDiary(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addFood: (food) => dispatch({ type: 'CREATE_FOOD', food }),
+    addEntry: (entry) => dispatch({ type: 'CREATE_ENTRY', entry}),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddFoodScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(AddEntryScreen)

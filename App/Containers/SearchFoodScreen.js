@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import { List, ListItem, Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
 import { connect } from 'react-redux'
+import { Selectors } from '../Redux/DietPlannerRedux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -23,14 +24,15 @@ class SearchFoodScreen extends Component {
   }
 
   render () {
-    const { searchList } = this.state
-    const { navigate } = this.props.navigation
+    const { props } = this
+    const { search, searchList, searchString, navigation, setFood } = props
+    const { navigate } = navigation
     return (
       <Container>
         <Header searchBar rounded>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search for food" />
+            <Input  onChangeText={text => search(text)}/>
           </Item>
           <Button transparent>
             <Text>Search</Text>
@@ -40,7 +42,10 @@ class SearchFoodScreen extends Component {
           {
             searchList.length > 0 ?
               searchList.map(entry => (
-                <ListItem onPress={ () => navigate('AddFoodScreen') } key={ entry.id }>
+                <ListItem onPress={ () => {
+                  navigate('AddEntryScreen')
+                  setFood(entry)
+                }} key={ entry.id }>
                   <Text>{ entry.name }</Text>
                 </ListItem>
               ))
@@ -56,11 +61,15 @@ class SearchFoodScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    searchList: Selectors.selectSearchResults(state),
+    searchString: Selectors.selectSearchString(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    search: (name) => dispatch({ type: 'SEARCH_NAME', name }),
+    setFood: (food) => dispatch({type: 'SET_CURRENT_FOOD', food })
   }
 }
 

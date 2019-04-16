@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {
   Form,
   Button,
-  Text,
   Item,
   Label,
   Input,
@@ -10,36 +9,33 @@ import {
   Content,
   H1,
 } from 'native-base';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import { Selectors } from '../Redux/DietPlannerRedux'
+import { ScrollView, Text, KeyboardAvoidingView } from 'react-native'
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux'
-import { authorize } from 'react-native-app-auth';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
 // Styles
-import styles from './Styles/LoginScreenStyle'
+import styles from './Styles/RegisterScreenStyle'
 
-class LoginScreen extends Component {
+class RegisterScreen extends Component {
   state = {
-    isSigninInProgress: false,
+    email: '',
     username: '',
     password: ''
   }
 
-  _signIn = async () => {
-    const { navigation, login } = this.props
-    const {navigate} = navigation
-    
-    login(this.state.username, this.state.password)
-    //navigate('DiaryList');
-    console.log('lmao!')
+  _register = () => {
+    const { navigation, register } = this.props
+    const { username, email, password } = this.state
+
+    register(username, email, password)
   }
 
   render () {
     const {loggedIn, error, navigation} = this.props
-    const {navigate} = navigation
+    const {navigate, goBack} = navigation
 
     if (loggedIn) {
       navigate('DiaryList')
@@ -48,10 +44,10 @@ class LoginScreen extends Component {
     return (
       <Container>
         <Grid>
-          <Row style={{ flex: 1, justifyContent: 'center', alignItems: 'center'  }}>
+          <Row style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center'  }}>
             <H1 style={{ flex: 1, textAlign: 'center' }}>Diet Schemer</H1>
           </Row>
-          <Row style={{height: 50}}>
+          <Row style={{height: 25}}>
             {
               error ? (
                 <Text>{error}</Text>
@@ -60,22 +56,26 @@ class LoginScreen extends Component {
           </Row>
           <Row style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Form style={{ flex: 1, textAlign: 'center', alignItems: 'center' }}>
+            <Item style={{ width: 200 }} floatingLabel>
+                <Label>Username</Label>
+                <Input onChangeText={(username) => this.setState({username})} />
+              </Item>
               <Item style={{ width: 200 }} floatingLabel>
                 <Label>Email</Label>
-                <Input onChangeText={(username) => this.setState({username})} />
+                <Input onChangeText={(email) => this.setState({email})} />
               </Item>
               <Item style={{ width: 200 }} floatingLabel>
                 <Label>Password</Label>
                 <Input style={{ width: 200 }} onChangeText={(password) => this.setState({password})} secureTextEntry={true}  />
               </Item>
               <Item style={{ width: 200 }}>
-                <Button style={{ width: 200 }}  success onPress={() => this._signIn()}>
-                  <Text >Log In</Text>
+                <Button style={{ width: 200 }}  success onPress={() => this._register()}>
+                  <Text >Register</Text>
                 </Button>
               </Item>
               <Item last style={{ width: 200 }}>
-                <Button  style={{ width: 200 }} info onPress={() => navigate('RegisterScreen')}>
-                  <Text>Register</Text>
+                <Button  style={{ width: 200 }} info onPress={() => goBack()}>
+                  <Text>Go Back</Text>
                 </Button>
               </Item>
             </Form>
@@ -95,8 +95,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (username, password) => dispatch({ type: 'LOGIN', username, password }),
+    register: (username, email, password) => dispatch({ type: 'REGISTER', username, email, password }),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen)

@@ -5,13 +5,26 @@ import DebugConfig from '../Config/DebugConfig'
 
 /* ------------- Types ------------- */
 
+import { DietPlannerTypes } from '../Redux/DietPlannerRedux'
 import { StartupTypes } from '../Redux/StartupRedux'
-import { GithubTypes } from '../Redux/GithubRedux'
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
-import { getUserAvatar } from './GithubSagas'
+import { 
+  login, 
+  register,
+  requestDiary,
+  searchName,
+  searchBarcode,
+  editWeightEntry,
+  createWeightEntry,
+  createFood,
+  createEntry,
+  editEntry,
+  deleteEntry,
+  updateMyInfo
+} from './DietPlannerSagas'
 
 /* ------------- API ------------- */
 
@@ -25,8 +38,17 @@ export default function * root () {
   yield all([
     // some sagas only receive an action
     takeLatest(StartupTypes.STARTUP, startup, api),
-
-    // some sagas receive extra parameters in addition to an action
-    takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)
+    takeLatest(DietPlannerTypes.LOGIN, login, api),
+    takeLatest(DietPlannerTypes.REGISTER, register, api),
+    takeLatest(DietPlannerTypes.REQUEST_DIARY, requestDiary, api),
+    takeLatest(DietPlannerTypes.SEARCH_NAME, searchName, api),
+    takeLatest(DietPlannerTypes.SEARCH_BARCODE, searchBarcode, api),
+    takeLatest(DietPlannerTypes.EDIT_WEIGHT_ENTRY, editWeightEntry, api),
+    takeLatest(DietPlannerTypes.CREATE_WEIGHT_ENTRY, createWeightEntry, api),
+    takeLatest(DietPlannerTypes.CREATE_FOOD, createFood, api),
+    takeLatest(DietPlannerTypes.CREATE_ENTRY, createEntry, api),
+    takeLatest(DietPlannerTypes.EDIT_ENTRY, editEntry, api),
+    takeLatest(DietPlannerTypes.DELETE_ENTRY, deleteEntry, api),
+    takeLatest(DietPlannerTypes.UPDATE_MY_INFO, updateMyInfo, api)
   ])
 }

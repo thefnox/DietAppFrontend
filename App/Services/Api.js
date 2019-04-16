@@ -34,12 +34,15 @@ const create = (baseURL = 'https://api.github.com/') => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
+  const login = body => api.post('auth/local', body)
+  const register = body => api.post('auth/local/register', body)
+  const setToken = jwt => api.setHeader('Authorization', `Bearer ${jwt}`)
   const getDiary = date => api.get(`diaries/${date}`)
   const getWeightEntries = () => api.get('weightentries')
   const createWeightEntry = body => api.post('weightentries', body)
   const editWeightEntry = (id, body) => api.put(`weightentries/${id}`, body)
   const deleteWeightEntry = id => api.delete(`weightentries/${id}`)
-  const searchName = name => api.get(`foods?name_contains=${barcode}`)
+  const searchName = name => api.get(`foods?name_contains=${name}`)
   const searchBarcode = barcode => api.get(`foods?barcode=${barcode}&_limit=1`)
   const getMyInfo = () => api.get('users/me')
   const updateMyInfo = body => api.put('users/me', body)
@@ -62,6 +65,9 @@ const create = (baseURL = 'https://api.github.com/') => {
   //
   return {
     // a list of the API functions from step 2
+    login,
+    setToken,
+    register,
     getDiary,
     getWeightEntries,
     createWeightEntry,

@@ -1,4 +1,5 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation'
+import AddWeightEntryScreen from '../Containers/AddWeightEntryScreen'
 import RegisterScreen from '../Containers/RegisterScreen'
 import AddEntryScreen from '../Containers/AddEntryScreen'
 import WeightProgressScreen from '../Containers/WeightProgressScreen'
@@ -15,6 +16,7 @@ import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
+  AddWeightEntryScreen: { screen: AddWeightEntryScreen },
   RegisterScreen: { screen: RegisterScreen },
   AddEntryScreen: { screen: AddEntryScreen },
   WeightProgressScreen: { screen: WeightProgressScreen },
